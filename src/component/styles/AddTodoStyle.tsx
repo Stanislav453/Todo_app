@@ -1,10 +1,20 @@
-import React from "react";
 import styled from "styled-components";
 
 export const AddTodoStyle = styled.div`
+  position: relative;
   width: 100%;
   height: 50px;
   display: flex;
+
+  p {
+    position: absolute;
+    top: -25px;
+    left: 0px;
+    color: red;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 
   input,
   button {

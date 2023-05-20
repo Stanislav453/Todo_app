@@ -8,7 +8,7 @@ export const TodoStyle = styled.form`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin: 5% auto;
+  margin: 50px auto 0 auto;
   padding: 2em;
   background-color: #145da0;
 

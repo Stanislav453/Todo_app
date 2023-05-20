@@ -7,12 +7,18 @@ export const TodoWrapperStyle = styled.main`
   flex-direction: column;
   gap: 0.5em;
 
+  h2 {
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
   article {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: .5em;
+    gap: 0.5em;
     width: 100%;
     height: auto;
     padding: 1em;
@@ -22,6 +28,7 @@ export const TodoWrapperStyle = styled.main`
       flex: 1 1 auto;
       font-size: 1.2rem;
       font-weight: 600;
+      text-transform: uppercase;
       letter-spacing: 0.05em;
 
       //max-width: 586px
