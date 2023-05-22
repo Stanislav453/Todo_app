@@ -4,19 +4,23 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
 type myTodosProps = {
   task: any;
+  removeTaskHandler: any;
 };
 
-const TodoWrapper = ({ task }: myTodosProps) => {
-
+const TodoWrapper = ({ task, removeTaskHandler }: myTodosProps) => {
   return (
     <TodoWrapperStyle>
       {task.length === 0 && <h2>you dont have task</h2>}
       {task.map((item: any, key: number) => {
         return (
-          <article key={key}>
+          <article key={item.id}>
             <p>{`${key + 1}. ${item.name}`}</p>
             <div>
-              <button>
+              <button
+                onClick={() => {
+                  removeTaskHandler(item.id);
+                }}
+              >
                 <BsFillTrashFill />
               </button>
               <button>

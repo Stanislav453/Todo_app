@@ -12,10 +12,11 @@ type State = {
   inputVerification: boolean;
   inputHaveNumberVerification: boolean;
   message: string;
+  newTask: any;
 };
 
 type Action = {
-  type: string | boolean;
+  type: string | boolean | number;
   payload: any;
 };
 
@@ -34,14 +35,15 @@ export const Todo = () => {
   //NOTIFICATION_VARIABLES
   const closeNotification = "close_notification";
   const inputIsEmpty = "input_is_empty";
-  const inputIsNotEmpty = "input_is_not_empty"
+  const inputIsNotEmpty = "input_is_not_empty";
   const inputIsAdd = "input_is_add";
   const inputHaveNumber = "input_have_number";
   const inputNotHaveNumber = "input_not_haver_number";
+  const removeTask = "remove_task"
 
   //REDUCER
   const reducer = (state: State, action: Action) => {
-    const newTask = [...state.task, action.payload];
+    const newTask = [ ...state.task, action.payload];
 
     switch (action.type) {
       case addTask:
@@ -68,19 +70,26 @@ export const Todo = () => {
       case inputIsAdd:
         return {
           ...state,
-          messageVerification: true, //must be true
+          messageVerification: true,
         };
       case inputHaveNumber:
         return {
           ...state,
           inputHaveNumberVerification: true,
         };
-      case inputNotHaveNumber: 
+      case inputNotHaveNumber:
         return {
           ...state,
           inputHaveNumberVerification: false,
         };
-
+      case removeTask:
+        return {
+          ...state,
+          task: state.task.filter((oneTask: any) => {
+            return oneTask.id !== action.payload
+          }),
+          
+        };
       default:
         return state;
     }
@@ -89,6 +98,7 @@ export const Todo = () => {
   //REDUCER_STATE
   const defaultState = {
     task: [],
+    newTask: [],
     messageVerification: false,
     inputVerification: false,
     inputHaveNumberVerification: false,
@@ -128,6 +138,11 @@ export const Todo = () => {
     dispatch({ type: closeNotification, payload: undefined });
   };
 
+  // console.log( state.task )
+  const removeTaskHandler = (id: number) => {
+    dispatch({ type: removeTask, payload: id });
+  }
+
   //APP
   return (
     <>
@@ -137,7 +152,9 @@ export const Todo = () => {
       <TodoStyle onSubmit={formSubmit}>
         <Header />
         <AddTodoStyle>
-          {state.inputHaveNumberVerification && <p>Inside Input can't be number</p>} 
+          {state.inputHaveNumberVerification && (
+            <p>Inside Input can't be number</p>
+          )}
           {state.inputVerification && <p>{inputMessage}</p>}
           <input
             type="text"
@@ -147,7 +164,7 @@ export const Todo = () => {
           />
           <button>{addTask}</button>
         </AddTodoStyle>
-        <TodoWrapper task={state.task} />
+        <TodoWrapper task={state.task} removeTaskHandler={removeTaskHandler} />
       </TodoStyle>
     </>
   );
