@@ -39,11 +39,18 @@ export const Todo = () => {
   const inputIsAdd = "input_is_add";
   const inputHaveNumber = "input_have_number";
   const inputNotHaveNumber = "input_not_haver_number";
-  const removeTask = "remove_task"
+  const removeTask = "remove_task";
+  const changeText = "change_text";
 
   //REDUCER
   const reducer = (state: State, action: Action) => {
-    const newTask = [ ...state.task, action.payload];
+    const newTask = [...state.task, action.payload];
+    const changeOneTask = [
+      ...state.task,
+      state.task.map((oneTask: any) => {
+        return oneTask.id !== action.payload ? "ahoj" : "nejde to";
+      }),
+    ];
 
     switch (action.type) {
       case addTask:
@@ -86,9 +93,13 @@ export const Todo = () => {
         return {
           ...state,
           task: state.task.filter((oneTask: any) => {
-            return oneTask.id !== action.payload
+            return oneTask.id !== action.payload;
           }),
-          
+        };
+      case changeText:
+        return {
+          ...state,
+          task: changeOneTask,
         };
       default:
         return state;
@@ -108,6 +119,7 @@ export const Todo = () => {
   //HOOKS
   const [state, dispatch] = useReducer(reducer, defaultState);
   const [value, setValue] = useState<string>("");
+  const [reWrite, setReWrite] = useState<string>("");
 
   //FORM_SUBMIT_ACTION
   const formSubmit = (e: any) => {
@@ -138,10 +150,21 @@ export const Todo = () => {
     dispatch({ type: closeNotification, payload: undefined });
   };
 
-  // console.log( state.task )
   const removeTaskHandler = (id: number) => {
     dispatch({ type: removeTask, payload: id });
-  }
+  };
+
+  const reWriteTask = (e: any) => {
+    e.preventDefault();
+    setReWrite(e.target.value);
+  };
+
+  const changeTask = (event: any, id: number) => {
+    event.preventDefault();
+    console.log("change");
+    dispatch({ type: changeText, payload: { reWrite, id } });
+    console.log(id);
+  };
 
   //APP
   return (
@@ -164,7 +187,12 @@ export const Todo = () => {
           />
           <button>{addTask}</button>
         </AddTodoStyle>
-        <TodoWrapper task={state.task} removeTaskHandler={removeTaskHandler} />
+        <TodoWrapper
+          task={state.task}
+          removeTaskHandler={removeTaskHandler}
+          reWriteTask={reWriteTask}
+          changeTask={changeTask}
+        />
       </TodoStyle>
     </>
   );

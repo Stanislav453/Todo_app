@@ -24,8 +24,24 @@ export const TodoWrapperStyle = styled.main`
     padding: 1em;
     background-color: #2e8bc0;
 
-    p {
+    header {
       flex: 1 1 auto;
+
+      input {
+        width: 100%;
+        font-size: 1.2rem;
+        padding: 0.2em .5rem ;
+      }
+
+      div {
+
+        button {
+          font-size: 1em;
+        }
+      }
+    }
+
+    h3 {
       font-size: 1.2rem;
       font-weight: 600;
       text-transform: uppercase;
