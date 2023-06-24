@@ -29,8 +29,13 @@ const TodoWrapper = ({
                   placeholder={item.name}
                   // value={item.name}
                   onChange={reWriteTask}
+                  // onChange={(e) =>
+                  //   task.id === task.id
+                  //     ?  setRewrite(e.target.value)
+                  //     : console.log("nothiong")
+                  // }
                 />
-                <button onClick={(e) => changeTask(e, item.id)}>Change text</button>
+                <button onClick={ (e) => changeTask(e, item.id)} >Change text</button>
               </div>
             </header>
             <div>

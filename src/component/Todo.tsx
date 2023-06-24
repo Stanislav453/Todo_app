@@ -5,6 +5,8 @@ import { Header } from "./Header";
 import { AddTodoStyle } from "./styles/AddTodoStyle";
 import { Modal } from "./Modal";
 
+//PRISIEL SOM NA TO AKO OZNACIT KONKTERNE POLE KTORE SA MA ZMENIT ALE ESTE NEVIEM AKO HO ZMENIT
+
 //TS_TYPE
 type State = {
   task: string[];
@@ -161,10 +163,14 @@ export const Todo = () => {
 
   const changeTask = (event: any, id: number) => {
     event.preventDefault();
-    console.log("change");
-    dispatch({ type: changeText, payload: { reWrite, id } });
-    console.log(id);
+    if (id === id) {
+      dispatch({ type: changeText, payload: { reWrite, id } });
+    }
+    // dispatch({ type: changeText, payload: { reWrite, id } });
+    // console.log(id);
   };
+
+  console.log(reWrite);
 
   //APP
   return (
