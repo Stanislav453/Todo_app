@@ -5,8 +5,6 @@ import { Header } from "./Header";
 import { AddTodoStyle } from "./styles/AddTodoStyle";
 import { Modal } from "./Modal";
 
-//PRISIEL SOM NA TO AKO OZNACIT KONKTERNE POLE KTORE SA MA ZMENIT ALE ESTE NEVIEM AKO HO ZMENIT
-
 //TS_TYPE
 type State = {
   task: string[];
@@ -14,7 +12,7 @@ type State = {
   inputVerification: boolean;
   inputHaveNumberVerification: boolean;
   message: string;
-  newTask: any;
+  reWriteTask: boolean
 };
 
 type Action = {
@@ -31,8 +29,9 @@ type NewTask = {
 export const Todo = () => {
   //STRING_VARIABLES
   const addTask = "add task";
-  const inputPlaceholder = "Select what you want do today";
-  const inputMessage = "you don't write any task.";
+  const inputPlaceholder = "Select what you want do today.";
+  const inputMessage = "You do not write any task.";
+  const insideInputCantBeNumber = "Inside Input can not be number.";
 
   //NOTIFICATION_VARIABLES
   const closeNotification = "close_notification";
@@ -42,17 +41,12 @@ export const Todo = () => {
   const inputHaveNumber = "input_have_number";
   const inputNotHaveNumber = "input_not_haver_number";
   const removeTask = "remove_task";
-  const changeText = "change_text";
+  const reWriteTask = "rewrite_task"
+
 
   //REDUCER
   const reducer = (state: State, action: Action) => {
     const newTask = [...state.task, action.payload];
-    const changeOneTask = [
-      ...state.task,
-      state.task.map((oneTask: any) => {
-        return oneTask.id !== action.payload ? "ahoj" : "nejde to";
-      }),
-    ];
 
     switch (action.type) {
       case addTask:
@@ -98,11 +92,6 @@ export const Todo = () => {
             return oneTask.id !== action.payload;
           }),
         };
-      case changeText:
-        return {
-          ...state,
-          task: changeOneTask,
-        };
       default:
         return state;
     }
@@ -116,12 +105,12 @@ export const Todo = () => {
     inputVerification: false,
     inputHaveNumberVerification: false,
     message: "",
+    reWriteTask: false,
   };
 
   //HOOKS
   const [state, dispatch] = useReducer(reducer, defaultState);
   const [value, setValue] = useState<string>("");
-  const [reWrite, setReWrite] = useState<string>("");
 
   //FORM_SUBMIT_ACTION
   const formSubmit = (e: any) => {
@@ -156,21 +145,6 @@ export const Todo = () => {
     dispatch({ type: removeTask, payload: id });
   };
 
-  const reWriteTask = (e: any) => {
-    e.preventDefault();
-    setReWrite(e.target.value);
-  };
-
-  const changeTask = (event: any, id: number) => {
-    event.preventDefault();
-    if (id === id) {
-      dispatch({ type: changeText, payload: { reWrite, id } });
-    }
-    // dispatch({ type: changeText, payload: { reWrite, id } });
-    // console.log(id);
-  };
-
-  console.log(reWrite);
 
   //APP
   return (
@@ -181,10 +155,10 @@ export const Todo = () => {
       <TodoStyle onSubmit={formSubmit}>
         <Header />
         <AddTodoStyle>
-          {state.inputHaveNumberVerification && (
-            <p>Inside Input can't be number</p>
+          {state.inputHaveNumberVerification && <p>{insideInputCantBeNumber}</p>}
+          {state.inputVerification && state.task.length === 0 && (
+            <p>{inputMessage}</p>
           )}
-          {state.inputVerification && <p>{inputMessage}</p>}
           <input
             type="text"
             value={value}
@@ -193,12 +167,7 @@ export const Todo = () => {
           />
           <button>{addTask}</button>
         </AddTodoStyle>
-        <TodoWrapper
-          task={state.task}
-          removeTaskHandler={removeTaskHandler}
-          reWriteTask={reWriteTask}
-          changeTask={changeTask}
-        />
+        <TodoWrapper task={state.task} removeTaskHandler={removeTaskHandler} />
       </TodoStyle>
     </>
   );

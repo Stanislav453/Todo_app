@@ -7,17 +7,9 @@ export const TodoWrapperStyle = styled.main`
   flex-direction: column;
   gap: 0.5em;
 
-  h2 {
-    display: block;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
   article {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     gap: 0.5em;
     width: 100%;
     height: auto;
@@ -25,24 +17,14 @@ export const TodoWrapperStyle = styled.main`
     background-color: #2e8bc0;
 
     header {
+      display: flex;
+      justify-content: space-between;
       flex: 1 1 auto;
 
-      input {
-        width: 100%;
-        font-size: 1.2rem;
-        padding: 0.2em .5rem ;
-      }
-
-      div {
-
-        button {
-          font-size: 1em;
-        }
-      }
     }
 
     h3 {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -53,21 +35,6 @@ export const TodoWrapperStyle = styled.main`
       }
     }
 
-    div {
-      flex: 100px 1 auto;
-      display: flex;
-      gap: 1.5em;
-
-      button {
-        font-size: 1.8rem;
-        color: #fff;
-        transition: color 0.3s ease-in-out;
-
-        &:hover {
-          color: #cecdcd;
-          transition: color 0.3s ease-in-out;
-        }
-      }
-    }
   }
+
 `;

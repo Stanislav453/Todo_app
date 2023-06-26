@@ -1,55 +1,50 @@
-import React from 'react'
-import { TodoWrapperStyle } from './styles/TodoWrapperStyle'
+import React from "react";
+import { TodoWrapperStyle } from "./styles/TodoWrapperStyle";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { RewriteTask } from "./styles/RewriteTask";
+import { TodoButton } from "./TodoButton";
 
 type myTodosProps = {
   task: any;
   removeTaskHandler: any;
-  reWriteTask: any;
-  changeTask: any
 };
 
-const TodoWrapper = ({
-  task,
-  removeTaskHandler,
-  reWriteTask,
-  changeTask,
-}: myTodosProps) => {
+  //STRING_VARIABLES
+  const changeText = "Change text";
+  const youDoNotHaveAnyTask = "You do not have any task";
+
+const TodoWrapper = ({ task, removeTaskHandler }: myTodosProps) => {
   return (
     <TodoWrapperStyle>
-      {task.length === 0 && <h2>you dont have task</h2>}
+      {task.length === 0 && <h2>{youDoNotHaveAnyTask}</h2>}
       {task.map((item: any, key: number) => {
         return (
           <article key={item.id}>
             <header>
               <h3>{`${key + 1}. ${item.name}`}</h3>
-              <div>
-                <input
-                  type="text"
-                  placeholder={item.name}
-                  // value={item.name}
-                  onChange={reWriteTask}
-                  // onChange={(e) =>
-                  //   task.id === task.id
-                  //     ?  setRewrite(e.target.value)
-                  //     : console.log("nothiong")
-                  // }
-                />
-                <button onClick={ (e) => changeTask(e, item.id)} >Change text</button>
-              </div>
+              <TodoButton>
+                <button
+                  onClick={() => {
+                    removeTaskHandler(item.id);
+                  }}
+                >
+                  <BsFillTrashFill />
+                </button>
+                <button>
+                  <BsFillPencilFill />
+                </button>
+              </TodoButton>
             </header>
-            <div>
-              <button
-                onClick={() => {
-                  removeTaskHandler(item.id);
-                }}
-              >
-                <BsFillTrashFill />
-              </button>
-              <button>
-                <BsFillPencilFill />
-              </button>
-            </div>
+            <RewriteTask>
+              <input
+                type="text"
+                placeholder={item.name}
+                onChange={(e: any) =>
+                  item.id === item.id ? (item.name = e.target.value) : item.name
+                }
+              />
+              <button onClick={(e) => console.log("hmm")}>{changeText}</button>
+            </RewriteTask>
           </article>
         );
       })}
@@ -57,4 +52,4 @@ const TodoWrapper = ({
   );
 };
 
-export default TodoWrapper
+export default TodoWrapper;
