@@ -12,18 +12,23 @@ type State = {
   inputVerification: boolean;
   inputHaveNumberVerification: boolean;
   message: string;
-  reWriteTask: boolean
+  reWriteTask: boolean;
+  isRewriteActive: boolean;
 };
 
-type Action = {
-  type: string | boolean | number;
-  payload: any;
-};
+type Action =
+  | {
+      type: string | boolean | number;
+      payload?: any;
+    }
+  | { type: "isRewriteActive"; payload: boolean };
 
 type NewTask = {
   id: number;
   name: string;
+  isRewriteActive: boolean;
 };
+
 
 //FUNCTION_TODO
 export const Todo = () => {
@@ -41,7 +46,9 @@ export const Todo = () => {
   const inputHaveNumber = "input_have_number";
   const inputNotHaveNumber = "input_not_haver_number";
   const removeTask = "remove_task";
-  const reWriteTask = "rewrite_task"
+  const reWriteTask = "rewrite_task";
+  const isRewriteActive = "rewrite_is_active";
+  
 
 
   //REDUCER
@@ -92,6 +99,11 @@ export const Todo = () => {
             return oneTask.id !== action.payload;
           }),
         };
+        case isRewriteActive:
+          return {
+            ...state,
+            
+          };
       default:
         return state;
     }
@@ -106,6 +118,7 @@ export const Todo = () => {
     inputHaveNumberVerification: false,
     message: "",
     reWriteTask: false,
+    isRewriteActive: false,
   };
 
   //HOOKS
@@ -113,38 +126,45 @@ export const Todo = () => {
   const [value, setValue] = useState<string>("");
 
   //FORM_SUBMIT_ACTION
-  const formSubmit = (e: any) => {
+  const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value && !state.inputHaveNumberVerification) {
-      const newTask: NewTask = { id: new Date().getTime(), name: value };
+      const newTask: NewTask = {
+        id: new Date().getTime(),
+        name: value,
+        isRewriteActive: false,
+      };
       dispatch({ type: addTask, payload: newTask });
-      dispatch({ type: inputIsAdd, payload: undefined });
-      dispatch({ type: inputIsNotEmpty, payload: undefined });
-      dispatch({ type: inputNotHaveNumber, payload: undefined });
+      dispatch({ type: inputIsAdd});
+      dispatch({ type: inputIsNotEmpty});
+      dispatch({ type: inputNotHaveNumber});
       setValue("");
     } else if (!value) {
-      dispatch({ type: inputIsEmpty, payload: undefined });
+      dispatch({ type: inputIsEmpty});
     }
   };
 
   //INPUT_LISTENER
-  const inputListener = (e: any) => {
+  const inputListener = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (/\d/.test(e.target.value)) {
-      dispatch({ type: inputHaveNumber, payload: undefined });
+      dispatch({ type: inputHaveNumber});
     } else {
-      dispatch({ type: inputNotHaveNumber, payload: undefined });
+      dispatch({ type: inputNotHaveNumber });
     }
   };
 
   const closeMessage = () => {
-    dispatch({ type: closeNotification, payload: undefined });
+    dispatch({ type: closeNotification });
   };
 
   const removeTaskHandler = (id: number) => {
     dispatch({ type: removeTask, payload: id });
   };
 
+  const isRewriteActiveHandler = () => {
+    dispatch({ type: isRewriteActive});
+  }
 
   //APP
   return (
@@ -155,7 +175,9 @@ export const Todo = () => {
       <TodoStyle onSubmit={formSubmit}>
         <Header />
         <AddTodoStyle>
-          {state.inputHaveNumberVerification && <p>{insideInputCantBeNumber}</p>}
+          {state.inputHaveNumberVerification && (
+            <p>{insideInputCantBeNumber}</p>
+          )}
           {state.inputVerification && state.task.length === 0 && (
             <p>{inputMessage}</p>
           )}
@@ -167,7 +189,12 @@ export const Todo = () => {
           />
           <button>{addTask}</button>
         </AddTodoStyle>
-        <TodoWrapper task={state.task} removeTaskHandler={removeTaskHandler} />
+        <TodoWrapper
+          isRewriteActive={state.isRewriteActive}
+          task={state.task}
+          removeTaskHandler={removeTaskHandler}
+          isRewriteActiveHandler={isRewriteActiveHandler}
+        />
       </TodoStyle>
     </>
   );
