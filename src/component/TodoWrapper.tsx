@@ -1,15 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { TodoWrapperStyle } from "./styles/TodoWrapperStyle";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { AiFillCloseCircle } from "react-icons/ai";
 import { RewriteTask } from "./styles/RewriteTask";
 import { TodoButton } from "./styles/TodoButton";
 
 type myTodosProps = {
   task: string[];
   removeTaskHandler: (id: number) => void;
-  isRewriteActive: boolean;
-  isRewriteActiveHandler: () => void;
 };
+
 
 //STRING_VARIABLES
 const changeText = "Change text";
@@ -18,9 +18,11 @@ const youDoNotHaveAnyTask = "You do not have any task";
 const TodoWrapper = ({
   task,
   removeTaskHandler,
-  isRewriteActive,
-  isRewriteActiveHandler,
 }: myTodosProps) => {
+  //HOOKS
+    const [number, setNumber] = useState<number>(0);
+
+    console.log(number)
   return (
     <TodoWrapperStyle>
       {task.length === 0 && <h2>{youDoNotHaveAnyTask}</h2>}
@@ -37,23 +39,35 @@ const TodoWrapper = ({
                 >
                   <BsFillTrashFill />
                 </button>
-                <button onClick={isRewriteActiveHandler}>
-                  <BsFillPencilFill />
-                </button>
+                {item.id === number ? (
+                  <button
+                    onClick={() => {
+                      setNumber(0);
+                    }}
+                  >
+                    <AiFillCloseCircle />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setNumber(item.id);
+                    }}
+                  >
+                    <BsFillPencilFill />
+                  </button>
+                )}
               </TodoButton>
             </header>
-            {item.isRewriteActive && (
+            {item.id === number && (
               <RewriteTask>
                 <input
                   type="text"
                   placeholder={item.name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    item.id === item.id
-                      ? (item.name = e.target.value)
-                      : item.name
+                    (item.name = e.target.value)
                   }
                 />
-                <button>{changeText}</button>
+                <button onClick={() => setNumber(0)}>{changeText}</button>
               </RewriteTask>
             )}
           </article>
