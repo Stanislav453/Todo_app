@@ -3,7 +3,7 @@ import { ModasStyle } from "./styles/ModasStyle";
 
 type ModalProps = {
   message: string;
-  closeMessage: any;
+  closeMessage: () => void;
 };
 
 export const Modal = ({ message, closeMessage }: ModalProps) => {
