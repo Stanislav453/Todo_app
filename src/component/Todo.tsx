@@ -12,8 +12,6 @@ type State = {
   inputVerification: boolean;
   inputHaveNumberVerification: boolean;
   message: string;
-  reWriteTask: boolean;
-  isRewriteActive: boolean;
 };
 
 type Action =
@@ -28,7 +26,6 @@ type NewTask = {
   name: string;
   isRewriteActive: boolean;
 };
-
 
 //FUNCTION_TODO
 export const Todo = () => {
@@ -48,8 +45,6 @@ export const Todo = () => {
   const removeTask = "remove_task";
   const reWriteTask = "rewrite_task";
   const isRewriteActive = "rewrite_is_active";
-  
-
 
   //REDUCER
   const reducer = (state: State, action: Action) => {
@@ -99,11 +94,6 @@ export const Todo = () => {
             return oneTask.id !== action.payload;
           }),
         };
-        case isRewriteActive:
-          return {
-            ...state,
-            
-          };
       default:
         return state;
     }
@@ -117,8 +107,6 @@ export const Todo = () => {
     inputVerification: false,
     inputHaveNumberVerification: false,
     message: "",
-    reWriteTask: false,
-    isRewriteActive: false,
   };
 
   //HOOKS
@@ -135,12 +123,12 @@ export const Todo = () => {
         isRewriteActive: false,
       };
       dispatch({ type: addTask, payload: newTask });
-      dispatch({ type: inputIsAdd});
-      dispatch({ type: inputIsNotEmpty});
-      dispatch({ type: inputNotHaveNumber});
+      dispatch({ type: inputIsAdd });
+      dispatch({ type: inputIsNotEmpty });
+      dispatch({ type: inputNotHaveNumber });
       setValue("");
     } else if (!value) {
-      dispatch({ type: inputIsEmpty});
+      dispatch({ type: inputIsEmpty });
     }
   };
 
@@ -148,7 +136,7 @@ export const Todo = () => {
   const inputListener = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (/\d/.test(e.target.value)) {
-      dispatch({ type: inputHaveNumber});
+      dispatch({ type: inputHaveNumber });
     } else {
       dispatch({ type: inputNotHaveNumber });
     }
@@ -162,9 +150,6 @@ export const Todo = () => {
     dispatch({ type: removeTask, payload: id });
   };
 
-  const isRewriteActiveHandler = () => {
-    dispatch({ type: isRewriteActive});
-  }
 
   //APP
   return (
@@ -190,10 +175,8 @@ export const Todo = () => {
           <button>{addTask}</button>
         </AddTodoStyle>
         <TodoWrapper
-          isRewriteActive={state.isRewriteActive}
           task={state.task}
           removeTaskHandler={removeTaskHandler}
-          isRewriteActiveHandler={isRewriteActiveHandler}
         />
       </TodoStyle>
     </>
