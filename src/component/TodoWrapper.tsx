@@ -2,18 +2,25 @@ import React from "react";
 import { TodoWrapperStyle } from "./styles/TodoWrapperStyle";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { RewriteTask } from "./styles/RewriteTask";
-import { TodoButton } from "./TodoButton";
+import { TodoButton } from "./styles/TodoButton";
 
 type myTodosProps = {
-  task: any;
-  removeTaskHandler: any;
+  task: string[];
+  removeTaskHandler: (id: number) => void;
+  isRewriteActive: boolean;
+  isRewriteActiveHandler: () => void;
 };
 
-  //STRING_VARIABLES
-  const changeText = "Change text";
-  const youDoNotHaveAnyTask = "You do not have any task";
+//STRING_VARIABLES
+const changeText = "Change text";
+const youDoNotHaveAnyTask = "You do not have any task";
 
-const TodoWrapper = ({ task, removeTaskHandler }: myTodosProps) => {
+const TodoWrapper = ({
+  task,
+  removeTaskHandler,
+  isRewriteActive,
+  isRewriteActiveHandler,
+}: myTodosProps) => {
   return (
     <TodoWrapperStyle>
       {task.length === 0 && <h2>{youDoNotHaveAnyTask}</h2>}
@@ -30,21 +37,25 @@ const TodoWrapper = ({ task, removeTaskHandler }: myTodosProps) => {
                 >
                   <BsFillTrashFill />
                 </button>
-                <button>
+                <button onClick={isRewriteActiveHandler}>
                   <BsFillPencilFill />
                 </button>
               </TodoButton>
             </header>
-            <RewriteTask>
-              <input
-                type="text"
-                placeholder={item.name}
-                onChange={(e: any) =>
-                  item.id === item.id ? (item.name = e.target.value) : item.name
-                }
-              />
-              <button onClick={(e) => console.log("hmm")}>{changeText}</button>
-            </RewriteTask>
+            {item.isRewriteActive && (
+              <RewriteTask>
+                <input
+                  type="text"
+                  placeholder={item.name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    item.id === item.id
+                      ? (item.name = e.target.value)
+                      : item.name
+                  }
+                />
+                <button>{changeText}</button>
+              </RewriteTask>
+            )}
           </article>
         );
       })}
