@@ -43,8 +43,6 @@ export const Todo = () => {
   const inputHaveNumber = "input_have_number";
   const inputNotHaveNumber = "input_not_haver_number";
   const removeTask = "remove_task";
-  const reWriteTask = "rewrite_task";
-  const isRewriteActive = "rewrite_is_active";
 
   //REDUCER
   const reducer = (state: State, action: Action) => {
@@ -114,8 +112,8 @@ export const Todo = () => {
   const [value, setValue] = useState<string>("");
 
   //FORM_SUBMIT_ACTION
-  const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const formSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     if (value && !state.inputHaveNumberVerification) {
       const newTask: NewTask = {
         id: new Date().getTime(),
@@ -150,15 +148,14 @@ export const Todo = () => {
     dispatch({ type: removeTask, payload: id });
   };
 
-
   //APP
   return (
     <>
-      {state.messageVerification && (
-        <Modal message={state.message} closeMessage={closeMessage} />
-      )}
       <TodoStyle onSubmit={formSubmit}>
-        <Header />
+        <Header
+          messageVerification={state.messageVerification}
+          closeMessage={closeMessage}
+        />
         <AddTodoStyle>
           {state.inputHaveNumberVerification && (
             <p>{insideInputCantBeNumber}</p>
@@ -167,17 +164,16 @@ export const Todo = () => {
             <p>{inputMessage}</p>
           )}
           <input
-            type="text"
+            type='text'
             value={value}
             placeholder={inputPlaceholder}
             onChange={inputListener}
           />
-          <button>{addTask}</button>
+          <button type='submit' onClick={() => formSubmit()}>
+            {addTask}
+          </button>
         </AddTodoStyle>
-        <TodoWrapper
-          task={state.task}
-          removeTaskHandler={removeTaskHandler}
-        />
+        <TodoWrapper task={state.task} removeTaskHandler={removeTaskHandler} />
       </TodoStyle>
     </>
   );

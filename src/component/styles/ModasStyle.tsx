@@ -1,13 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const ModasStyle = styled.div`
-  max-width: 150px;
+  position: absolute;
+  top: 10px;
+  z-index: 1000;
+  left: 0;
+  width: 100%;
   height: auto;
   padding: 1em;
   margin: 50px auto 0 auto;
   border-radius: 1em;
-  background-color: rgb(46, 192, 49);
+  /* background-color: rgb(46, 192, 49); */
 
   p {
     display: block;
@@ -15,5 +18,6 @@ export const ModasStyle = styled.div`
     font-weight: 900;
     text-align: center;
     text-transform: capitalize;
+    color: rgb(46, 192, 49);
   }
 `;

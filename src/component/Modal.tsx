@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { ModasStyle } from "./styles/ModasStyle";
 
 type ModalProps = {
-  message: string;
+  messageVerification: boolean;
   closeMessage: () => void;
 };
 
-export const Modal = ({ message, closeMessage }: ModalProps) => {
+const modalMessage = "you add task";
+export const Modal = ({  closeMessage }: ModalProps) => {
     //VARIABLES_VALUES
     const timeout = 1500
 
@@ -19,7 +20,7 @@ export const Modal = ({ message, closeMessage }: ModalProps) => {
 
   return (
     <ModasStyle>
-      <p>{message}</p>
+      <p>{modalMessage}</p>
     </ModasStyle>
   );
 };
