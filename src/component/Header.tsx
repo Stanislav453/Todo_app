@@ -1,7 +1,7 @@
 import { HeaderStyle, HeaderUndergroundStyle } from "./styles/HeaderStyle";
 import { Modal } from "./Modal";
 type headerProps = {
-  messageVerification: any;
+  messageVerification: boolean;
   closeMessage: () => void;
 };
 

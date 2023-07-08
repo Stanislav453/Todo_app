@@ -27,6 +27,7 @@ type NewTask = {
   isRewriteActive: boolean;
 };
 
+
 //FUNCTION_TODO
 export const Todo = () => {
   //STRING_VARIABLES
@@ -88,7 +89,7 @@ export const Todo = () => {
       case removeTask:
         return {
           ...state,
-          task: state.task.filter((oneTask: any) => {
+          task: state.task.filter((oneTask: NewTask | any) => {
             return oneTask.id !== action.payload;
           }),
         };
