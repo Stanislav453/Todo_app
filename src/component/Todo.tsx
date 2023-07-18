@@ -3,12 +3,10 @@ import TodoWrapper from "./TodoWrapper";
 import { TodoStyle } from "./styles/TodoStyle";
 import { Header } from "./Header";
 import { AddTodoStyle } from "./styles/AddTodoStyle";
-import { Modal } from "./Modal";
 
 //TS_TYPE
 type State = {
   task: string[];
-  messageVerification: boolean;
   inputVerification: boolean;
   inputHaveNumberVerification: boolean;
   message: string;
@@ -27,22 +25,14 @@ type NewTask = {
   isRewriteActive: boolean;
 };
 
-
 //FUNCTION_TODO
 export const Todo = () => {
   //STRING_VARIABLES
   const addTask = "add task";
   const inputPlaceholder = "Select what you want do today.";
-  const inputMessage = "You do not write any task.";
   const insideInputCantBeNumber = "Inside Input can not be number.";
 
   //NOTIFICATION_VARIABLES
-  const closeNotification = "close_notification";
-  const inputIsEmpty = "input_is_empty";
-  const inputIsNotEmpty = "input_is_not_empty";
-  const inputIsAdd = "input_is_add";
-  const inputHaveNumber = "input_have_number";
-  const inputNotHaveNumber = "input_not_haver_number";
   const removeTask = "remove_task";
 
   //REDUCER
@@ -55,36 +45,6 @@ export const Todo = () => {
           ...state,
           task: newTask,
           message: addTask,
-        };
-      case closeNotification:
-        return {
-          ...state,
-          messageVerification: false,
-        };
-      case inputIsEmpty:
-        return {
-          ...state,
-          inputVerification: true,
-        };
-      case inputIsNotEmpty:
-        return {
-          ...state,
-          inputVerification: false,
-        };
-      case inputIsAdd:
-        return {
-          ...state,
-          messageVerification: true,
-        };
-      case inputHaveNumber:
-        return {
-          ...state,
-          inputHaveNumberVerification: true,
-        };
-      case inputNotHaveNumber:
-        return {
-          ...state,
-          inputHaveNumberVerification: false,
         };
       case removeTask:
         return {
@@ -101,8 +61,6 @@ export const Todo = () => {
   //REDUCER_STATE
   const defaultState = {
     task: [],
-    newTask: [],
-    messageVerification: false,
     inputVerification: false,
     inputHaveNumberVerification: false,
     message: "",
@@ -111,23 +69,22 @@ export const Todo = () => {
   //HOOKS
   const [state, dispatch] = useReducer(reducer, defaultState);
   const [value, setValue] = useState<string>("");
+  const [messageVerification, setMessageVerification] = useState<boolean>(false);
+  const [inputHaveNumber, setInputHaveNumber] = useState(false);
 
   //FORM_SUBMIT_ACTION
   const formSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
-    if (value && !state.inputHaveNumberVerification) {
+    if (value && !inputHaveNumber) {
       const newTask: NewTask = {
         id: new Date().getTime(),
         name: value,
         isRewriteActive: false,
       };
       dispatch({ type: addTask, payload: newTask });
-      dispatch({ type: inputIsAdd });
-      dispatch({ type: inputIsNotEmpty });
-      dispatch({ type: inputNotHaveNumber });
+      setMessageVerification(true);
+      // dispatch({ type: inputIsNotEmpty });
       setValue("");
-    } else if (!value) {
-      dispatch({ type: inputIsEmpty });
     }
   };
 
@@ -135,14 +92,10 @@ export const Todo = () => {
   const inputListener = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     if (/\d/.test(e.target.value)) {
-      dispatch({ type: inputHaveNumber });
+      setInputHaveNumber(true);
     } else {
-      dispatch({ type: inputNotHaveNumber });
+      setInputHaveNumber(false);
     }
-  };
-
-  const closeMessage = () => {
-    dispatch({ type: closeNotification });
   };
 
   const removeTaskHandler = (id: number) => {
@@ -154,16 +107,11 @@ export const Todo = () => {
     <>
       <TodoStyle onSubmit={formSubmit}>
         <Header
-          messageVerification={state.messageVerification}
-          closeMessage={closeMessage}
+          messageVerification={messageVerification}
+          setMessageVerification={setMessageVerification}
         />
         <AddTodoStyle>
-          {state.inputHaveNumberVerification && (
-            <p>{insideInputCantBeNumber}</p>
-          )}
-          {state.inputVerification && state.task.length === 0 && (
-            <p>{inputMessage}</p>
-          )}
+          {inputHaveNumber && <p>{insideInputCantBeNumber}</p>}
           <input
             type='text'
             value={value}
