@@ -70,7 +70,7 @@ export const Todo = () => {
   const [state, dispatch] = useReducer(reducer, defaultState);
   const [value, setValue] = useState<string>("");
   const [messageVerification, setMessageVerification] = useState<boolean>(false);
-  const [inputHaveNumber, setInputHaveNumber] = useState(false);
+  const [inputHaveNumber, setInputHaveNumber] = useState<boolean>(false);
 
   //FORM_SUBMIT_ACTION
   const formSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
