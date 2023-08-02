@@ -1,8 +1,8 @@
 import React, { useReducer, useState } from "react";
-import TodoWrapper from "./TodoWrapper";
-import { TodoStyle } from "./styles/TodoStyle";
-import { Header } from "./Header";
-import { AddTodoStyle } from "./styles/AddTodoStyle";
+import TodoWrapper from "../TodoWraper/TodoWrapper";
+import { TodoStyle } from "./TodoStyle";
+import { Header } from "../Header/Header";
+import { AddTodoStyle } from "../styles/AddTodoStyle";
 
 //TS_TYPE
 type State = {
@@ -24,6 +24,7 @@ type NewTask = {
   name: string;
   isRewriteActive: boolean;
 };
+
 
 //FUNCTION_TODO
 export const Todo = () => {
@@ -49,7 +50,7 @@ export const Todo = () => {
       case removeTask:
         return {
           ...state,
-          task: state.task.filter((oneTask: NewTask | any) => {
+          task: state.task.filter((oneTask: any) => {
             return oneTask.id !== action.payload;
           }),
         };
@@ -69,7 +70,8 @@ export const Todo = () => {
   //HOOKS
   const [state, dispatch] = useReducer(reducer, defaultState);
   const [value, setValue] = useState<string>("");
-  const [messageVerification, setMessageVerification] = useState<boolean>(false);
+  const [messageVerification, setMessageVerification] =
+    useState<boolean>(false);
   const [inputHaveNumber, setInputHaveNumber] = useState<boolean>(false);
 
   //FORM_SUBMIT_ACTION
@@ -82,8 +84,7 @@ export const Todo = () => {
         isRewriteActive: false,
       };
       dispatch({ type: addTask, payload: newTask });
-      setMessageVerification(true);
-      // dispatch({ type: inputIsNotEmpty });
+      setMessageVerification(true); 
       setValue("");
     }
   };

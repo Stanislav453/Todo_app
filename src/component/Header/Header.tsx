@@ -1,11 +1,14 @@
-import { HeaderStyle, HeaderUndergroundStyle } from "./styles/HeaderStyle";
-import { Modal } from "./Modal";
+import { HeaderStyle, HeaderUndergroundStyle } from "./HeaderStyle";
+import { Modal } from "../Modal/Modal";
 type headerProps = {
   messageVerification: boolean;
   setMessageVerification: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const Header = ({ messageVerification, setMessageVerification }: headerProps) => {
+export const Header = ({
+  messageVerification,
+  setMessageVerification,
+}: headerProps) => {
   const welcomeMessage = "What do you do today.";
   return (
     <HeaderStyle>

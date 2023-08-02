@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ModasStyle } from "./styles/ModasStyle";
+import { ModasStyle } from "./ModasStyle";
 
 type ModalProps = {
   messageVerification: boolean;
@@ -7,13 +7,13 @@ type ModalProps = {
 };
 
 const modalMessage = "you add task";
-export const Modal = ({setMessageVerification }: ModalProps) => {
+export const Modal = ({ setMessageVerification }: ModalProps) => {
   //VARIABLES_VALUES
   const timeout = 1500;
 
   useEffect(() => {
     setTimeout(() => {
-      setMessageVerification(false)
+      setMessageVerification(false);
     }, timeout);
   });
 

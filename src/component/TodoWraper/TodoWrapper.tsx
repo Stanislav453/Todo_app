@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { TodoWrapperStyle } from "./styles/TodoWrapperStyle";
+import { TodoWrapperStyle } from "./TodoWrapperStyle";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { RewriteTask } from "./styles/RewriteTask";
-import { TodoButton } from "./styles/TodoButton";
+import { RewriteTask } from "../styles/RewriteTask";
+import { TodoButton } from "../styles/TodoButton";
 
 type myTodosProps = {
   task: string[];
